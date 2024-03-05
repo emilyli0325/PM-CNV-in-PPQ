@@ -1,6 +1,6 @@
 ## g.vcf cohort
 java -jar /master/xli/software/GATK/GenomeAnalysisTK.jar \
--T GenotypeGVCFs -R /./PlasmoDB-46_Pfalciparum3D7_Genome.fasta \
+-T GenotypeGVCFs -R ./PlasmoDB-32_Pfalciparum3D7_Genome.fasta \
 -L ./Known_sites/Core_Genome.intervals \
 -V ./Mal31.di.g.vcf \
 -V ./KH004-2-019-H9.di.g.vcf \
