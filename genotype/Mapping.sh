@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "mapping ${1}..."
 
-./bwa3/bwa-0.7.15/bwa mem ./Pfal46 ./${1}.R1.fastq.gz ./${1}.R2.fastq.gz -t 12 -M -R "@RG\tID:${1}\tLB:${1}\tPL:ILLUMINA\tPM:HISEQ\tSM:${1}" > SAM/${1}.sam
+./bwa3/bwa-0.7.15/bwa mem ./Pfal32 ./${1}.R1.fastq.gz ./${1}.R2.fastq.gz -t 12 -M -R "@RG\tID:${1}\tLB:${1}\tPL:ILLUMINA\tPM:HISEQ\tSM:${1}" > SAM/${1}.sam
 
 java -Xmx30g -jar ./picard/picard.jar SortSam \
      INPUT=SAM/${1}.sam \
@@ -23,7 +23,7 @@ cd ..
 echo "BQSR $file..."	 
 	java -Xmx30g -jar ./GATK/GenomeAnalysisTK.jar\
 		 -T BaseRecalibrator\
-		 -R ./Pfal32_GATK_index/PlasmoDB-46_Pfalciparum3D7_Genome.fasta\
+		 -R ./Pfal32_GATK_index/PlasmoDB-32_Pfalciparum3D7_Genome.fasta\
 		 -I dedup.sorted.bam/${1}.dedup.sorted.bam\
 		 -knownSites ./Known_sites/3d7_hb3.combined.final.karo.sort.vcf\
 		 -knownSites ./Known_sites/7g8_gb4.combined.final.karo.sort.vcf\
@@ -32,7 +32,7 @@ echo "BQSR $file..."
 		 
 	java -Xmx30g -jar ./GATK/GenomeAnalysisTK.jar\
 		 -T PrintReads\
-		 -R ./Pfal32_GATK_index/PlasmoDB-46_Pfalciparum3D7_Genome.fasta\
+		 -R ./Pfal32_GATK_index/PlasmoDB-32_Pfalciparum3D7_Genome.fasta\
 		 -I dedup.sorted.bam/${1}.dedup.sorted.bam\
 		 -BQSR BQSR/${1}.recal.table\
 		 -o recal.bam/${1}.recal.bam 
@@ -40,7 +40,7 @@ echo "BQSR $file..."
 echo "Variant calling ${1}..."
 	java -Xmx30g -jar ./GATK/GenomeAnalysisTK.jar\
          -T HaplotypeCaller\
-         -R ./Pfal32_GATK_index/PlasmoDB-46_Pfalciparum3D7_Genome.fasta\
+         -R ./Pfal32_GATK_index/PlasmoDB-32_Pfalciparum3D7_Genome.fasta\
          -I recal.bam/${1}.recal.bam\
          --emitRefConfidence BP_RESOLUTION\
          -o g.vcf.ploidy2/${1}.g.vcf\
